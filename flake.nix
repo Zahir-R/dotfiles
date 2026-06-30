@@ -2,24 +2,34 @@
   description = "Multi-Host NixOS Flake Infrastructure";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
+  };
 
-    outputs = { self, nixpkgs, ... }@inputs: {
-      nixosConfigurations = {
-        gamedev = nixpkgs.lib.nixosSystem {
-	  system = "x86_64-linux";
-	  modules = [
-	    ./hosts/gamedev/configuration.nix
-	  ];
-	};
+  outputs = { self, nixpkgs, home-manager, ... }@inputs: {
+    nixosConfigurations = {
+      gamedev = nixpkgs.lib.nixosSystem {
+	      system = "x86_64-linux";
+	      modules = [
+	        ./hosts/gamedev/configuration.nix
+	        home-manager.nixosModules.home-manager {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.zahir = import ./hosts/gamedev/home.nix;
+          }
+        ];
+	    };
 
-      # Insert Enterprise, WebDev, or Optimization hosts here
-      # Generate hardware configs on install and register:
-      #
-      # enterprise = nixpkgs.lib.nixosSystem {
-      #   system = "x86_64-linux";
-      #   modules = [ ./hosts/enterprise/configuration.nix ];
-      # };
+    # Insert Enterprise, WebDev, or Optimization hosts here
+    # Generate hardware configs on install and register:
+    #
+    # enterprise = nixpkgs.lib.nixosSystem {
+    #   system = "x86_64-linux";
+    #   modules = [ ./hosts/enterprise/configuration.nix ];
+    # };
     };
   };
 }
