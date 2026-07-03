@@ -11,9 +11,11 @@
 
   home.packages = with pkgs; [
     firefox
-    nerd-fonts.jetbrains-mono
     eza
     bat
+    pkgs.thunar
+    awww
+    bibata-cursors
   ];
 
   programs.alacritty = {
@@ -97,6 +99,14 @@
         "unknown-token" = "fg=#6c7086";
       };
     };
+  };
+
+  home.pointerCursor = {
+    gtk.enable = true;
+    x11.enable = true;
+    package = pkgs.bibata-cursors;
+    name = "Bibata-Modern-Ice";
+    size = 24;
   };
 
   programs.home-manager.enable = true;

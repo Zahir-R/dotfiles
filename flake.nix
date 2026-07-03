@@ -22,14 +22,17 @@
           }
         ];
 	    };
-
-    # Insert Enterprise, WebDev, or Optimization hosts here
-    # Generate hardware configs on install and register:
-    #
-    # enterprise = nixpkgs.lib.nixosSystem {
-    #   system = "x86_64-linux";
-    #   modules = [ ./hosts/enterprise/configuration.nix ];
-    # };
+      webwork = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./hosts/webwork/configuration.nix
+          home-manager.nixosModules.home-manager {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.zahir = import ./hosts/webwork/home.nix;
+          }
+        ];
+      };
     };
   };
 }

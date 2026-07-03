@@ -13,7 +13,6 @@
   # Developer Specific Software Packages
   environment.systemPackages = with pkgs; [
     # Essentials
-    alacritty
     rofi
     waybar
     wl-clipboard
