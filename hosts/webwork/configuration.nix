@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 {
   imports =
@@ -39,19 +39,19 @@
     defaultSession = "hyprland";
   };
 
-  programs.adb.enable = true;
-
   users.users.zahir = {
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" "video" "adbusers" "kvm" ];
   };
 
-  androidsdk = {
-    enable = true;
-    platformVersions = [ "34" "35" ];
-    buildToolsVersions = [ "34.0.0" "35.0.0" ];
-    includeEmulator = true;
-    emulatorFormats = [ "x86_64" ];
+  nixpkgs = {
+    config = {
+      allowUnfree = true;
+      android_sdk.accept_license = true;
+    };
+    overlays = [
+      inputs.android-nixpkgs.overlays.default
+    ];
   };
 
   environment.systemPackages = with pkgs; [
@@ -62,6 +62,7 @@
 
     android-studio
     chromium
+    android-tools
   ];
 
   boot.kernel.sysctl = {

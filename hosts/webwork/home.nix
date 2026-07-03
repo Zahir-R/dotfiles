@@ -1,7 +1,24 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, inputs, ... }: {
+  imports = [
+    inputs.android-nixpkgs.hmModule
+  ];
   home.username = "zahir";
   home.homeDirectory = "/home/zahir";
   home.stateVersion = "26.05";
+
+  android-sdk = {
+    enable = true;
+    path = "${config.home.homeDirectory}/Android/Sdk";
+    packages = sdkPkgs: with sdkPkgs; [
+      cmdline-tools-latest
+      build-tools-34-0-0
+      build-tools-35-0-0
+      platform-tools
+      platforms-android-34
+      platforms-android-35
+      emulator
+    ];
+  };
 
   home.file = {
     ".config/hypr/hyprland.lua".source = ../../config/hypr/hyprland.lua;
@@ -21,7 +38,7 @@
     xdg-utils
 
     nodejs_22
-    nodePackages.pnpm
+    pnpm
     jdk17
 
     (dotnetCorePackages.combinePackages [ 
