@@ -6,7 +6,6 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
     android-nixpkgs = {
       url = "github:tadfisher/android-nixpkgs";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -14,30 +13,58 @@
   };
 
   outputs = { self, nixpkgs, home-manager, ... }@inputs: {
-    nixosConfigurations = {
-      gamedev = nixpkgs.lib.nixosSystem {
-	      system = "x86_64-linux";
-	      modules = [
-	        ./hosts/gamedev/configuration.nix
-	        home-manager.nixosModules.home-manager {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.users.zahir = import ./hosts/gamedev/home.nix;
-          }
-        ];
-	    };
-      webwork = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
-        modules = [
-          ./hosts/webwork/configuration.nix
-          home-manager.nixosModules.home-manager {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = { inherit inputs ; };
-            home-manager.users.zahir = import ./hosts/webwork/home.nix;
-          }
-        ];
+    let
+      system = "x86_64-linux";
+      specialArgs = { inherit inputs; };
+      sharedModules = [
+        ./modules/core/base.nix
+        ./users/zahir/user.nix
+        home-manager.nixosModules.home-manager {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.extraSpecialArgs = { inherit inputs; };
+          home-manager.users.zahir = import ./users/zahir/home.nix;
+        }
+      ];
+    in {
+      nixosConfigurations = {
+        gamedev = nixpkgs.lib.nixosSystem {
+          inherit system specialArgs;
+          modules = sharedModules ++ [
+            ./hosts/gamedev/configuration.nix
+            ./modules/hardware/nvidia.nix
+            ./modules/desktop
+            ./modules/dev/gamedev.nix
+          ];
+        };
+
+        webwork = nixpkgs.lib.nixosSystem {
+          inherit system specialArgs;
+          modules = sharedModules ++ [
+            ./hosts/webwork/configuration.nix
+            ./modules/hardware/nvidia.nix
+            ./modules/desktop
+            ./modules/dev/godot.nix
+            ./modules/services/databases.nix
+          ];
+        };
+
+        weblight = nixpkgs.lib.nixosSystem {
+          inherit system specialArgs;
+          modules = sharedModules ++ [
+            ./hosts/weblight/configuration.nix
+            ./modules/desktop
+            ./modules/dev/weblight.nix
+            ./modules/services/databases.nix
+          ];
+        };
+
+        microserver = nixpkgs.lib.nixosSystem {
+          inherit system specialArgs;
+          modules = sharedModules ++ [
+            ./hosts/microserver/configuration.nix
+          ];
+        };
       };
     };
   };
