@@ -1,7 +1,7 @@
 { ... }: {
   imports = [ ./hardware-configuration.nix ];
 
-  networking.hostName = "web-work";
+  networking.hostName = "webwork";
   networking.networkmanager.enable = true;
 
   boot.loader.systemd-boot.enable = true;

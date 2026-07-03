@@ -53,8 +53,14 @@
       ls = "eza --icons --group-directories-first";
       cat = "bat";
       zconf = "nvim ~/dotfiles/users/zahir/home.nix";
-      zreload = "sudo nixos-rebuild switch --flake ~/dotfiles/#\$(hostname)";
     };
+
+    initContent = ''
+      zreload() {
+        local target=''${1:-$(hostname)}
+        sudo nixos-rebuild switch --flake ~/dotfiles/#"$target" && sudo systemctl restart systemd-hostnamed && exec zsh
+      }
+    '';
 
     syntaxHighlighting = {
       enable = true;
