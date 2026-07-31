@@ -1,21 +1,40 @@
 return {
   {
-    "neovim/nvim-lspconfig",
+    "mason-org/mason-lspconfig.nvim",
+    enabled = false,
     opts = {
-      servers = {
-        csharp_ls = {
-          cmd_env = {
-            DOTNET_ROOT = "/run/current-system/sw/share/dotnet"
-          }
-        },
-        gdscript = {},
-      },
+      automatic_installation = false,
+      ensure_installed = {},
     },
   },
   {
     "mason-org/mason.nvim",
+    enabled = false,
     opts = {
-      ensure_installed = {},
+      auto_install = false,
+    },
+  },
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      servers = {
+        lua_ls = {},
+        nil_ls = {},
+        bashls = {},
+        gdscript = {},
+        csharp_ls = {},
+        pyright = {
+          settings = {
+            python = {
+              analysis = {
+                autoSearchPaths = true,
+                useLibraryCodeForTypes = true,
+                diagnosticMode = "openFilesOnly",
+              }
+            }
+          }
+        },
+      },
     },
   },
 }

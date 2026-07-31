@@ -8,12 +8,22 @@
 
   home.file = {
     ".config/hypr/hyprland.lua".source = ../../config/hypr/hyprland.lua;
-    ".config/nvim/lua/plugins/lsp.lua".source = ../../config/nvim/lua/plugins/lsp.lua;
   };
 
   home.packages = with pkgs; [
     firefox eza bat thunar awww bibata-cursors rofi waybar wl-clipboard xdg-utils
-  ];
+    tree-sitter
+    (vimPlugins.nvim-treesitter.withAllGrammars)
+    
+    pyright
+    python3Packages.python-lsp-server
+
+    lua-language-server
+    nil
+    bash-language-server
+    ];
+xdg.configFile."nvim".source = ../../config/nvim;
+
   programs.alacritty = {
     enable = true;
     settings = {
@@ -69,6 +79,12 @@
         "builtin" = "fg=#f5c2e7,bold"; "function" = "fg=#f5c2e7,bold"; "unknown-token" = "fg=#6c7086";
       };
     };
+  };
+
+  programs.direnv = {
+    enable = true;
+    enableZshIntegration = true;
+    nix-direnv.enable = true;
   };
 
   home.pointerCursor = {

@@ -223,18 +223,15 @@ hl.config({
 
 hl.config({
     input = {
-        kb_layout  = "us",
-        kb_variant = "",
-        kb_model   = "",
-        kb_options = "",
-        kb_rules   = "",
-
+        kb_layout = "us,es",
+        kb_options = "grp:win_space_toggle",
+  	kb_variant = "",
+	kb_model = "",
+	kb_rules = "",
         follow_mouse = 1,
-
-        sensitivity = 0, -- -1.0 - 1.0, 0 means no modification.
-
-        touchpad = {
-            natural_scroll = false,
+	sensitivity = 0,
+	touchpad = {
+	    natural_scroll = false,
         },
     },
 })
@@ -367,3 +364,13 @@ hl.window_rule({
 })
 
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen({ action = "toggle" }))
+
+hl.bind("XF86AudioMute", hl.dsp.exec_cmd("sh -c 'LOCK=/tmp/mute.lock; if [ ! -f $LOCK ]; then touch $LOCK; wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle; sleep 0.3; rm -f $LOCK; fi'"), { locked = true })
+
+hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("sh -c 'LOCK=/tmp/vol_up.lock; if [ ! -f $LOCK ]; then touch $LOCK; wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 1%+; sleep 0.05; rm -f $LOCK; fi'"), { locked = true, repeating = true })
+
+hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("sh -c 'LOCK=/tmp/vol_down.lock; if [ ! -f $LOCK ]; then touch $LOCK; wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%-; sleep 0.05; rm -f $LOCK; fi'"), { locked = true, repeating = true })
+
+hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("sh -c 'LOCK=/tmp/bright_up.lock; if [ ! -f $LOCK ]; then touch $LOCK; brightnessctl -d intel_backlight set +2%; sleep 0.05; rm -f $LOCK; fi'"), { locked = true, repeating = true })
+
+hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("sh -c 'LOCK=/tmp/bright_down.lock; if [ ! -f $LOCK ]; then touch $LOCK; brightnessctl -d intel_backlight set 2%-; sleep 0.05; rm -f $LOCK; fi'"), { locked = true, repeating = true })

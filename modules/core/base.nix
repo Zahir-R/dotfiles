@@ -6,7 +6,10 @@
     useXkbConfig = true;
   };
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
   nixpkgs.config.allowUnfree = true;
 
   programs.zsh.enable = true;
@@ -21,7 +24,19 @@
   ];
 
   environment.systemPackages = with pkgs; [
-    vim wget git gnumake neovim gcc ripgrep fd unzip fastfetch tree
+    vim
+    wget
+    git
+    gnumake
+    neovim
+    gcc
+    ripgrep
+    brightnessctl
+    fd
+    unzip
+    fastfetch
+    tree
     vimPlugins.nvim-treesitter.withAllGrammars
+    opencode
   ];
 }
