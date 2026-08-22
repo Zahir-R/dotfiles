@@ -11,11 +11,9 @@
   environment.systemPackages = with pkgs; [
     android-studio
     android-tools
-    chromium
   ];
 
   environment.sessionVariables = {
     ANDROID_HOME = "/home/zahir/Android/Sdk";
-    CHROME_BIN = "${pkgs.chromium}/bin/chromium";
   };
 }

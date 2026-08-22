@@ -29,6 +29,7 @@ require("lazy").setup({
   },
   install = { colorscheme = { "tokyonight", "habamax" } },
   checker = { enabled = false },
+  rocks = { enabled = false },
   performance = {
     rtp = {
       disabled_plugins = {
@@ -40,4 +41,5 @@ require("lazy").setup({
       },
     },
   },
+  lockfile = vim.fn.stdpath("state") .. "/lazy-lock.json",
 })

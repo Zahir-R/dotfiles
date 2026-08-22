@@ -12,60 +12,69 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs:
-  let
-    system = "x86_64-linux";
-    specialArgs = { inherit inputs; };
-    sharedModules = [
-      ./modules/core/base.nix
-      ./users/zahir/user.nix
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      ...
+    }@inputs:
+    let
+      system = "x86_64-linux";
+      specialArgs = { inherit inputs; };
+      sharedModules = [
+        ./modules/core/base.nix
+        ./users/zahir/user.nix
 
-      home-manager.nixosModules.home-manager {
-        home-manager.useGlobalPkgs = true;
-        home-manager.useUserPackages = true;
-        home-manager.extraSpecialArgs = { inherit inputs; };
-        home-manager.users.zahir = import ./users/zahir/home.nix;
-      }
-    ];
-  in {
-    nixosConfigurations = {
-      gamedev = nixpkgs.lib.nixosSystem {
-        inherit system specialArgs;
-        modules = sharedModules ++ [
-          ./hosts/gamedev/configuration.nix
-          ./modules/hardware/nvidia.nix
-          ./modules/desktop/default.nix
-          ./modules/dev/gamedev/default.nix
-        ];
-      };
+        home-manager.nixosModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.extraSpecialArgs = { inherit inputs; };
+          home-manager.users.zahir = import ./users/zahir/home.nix;
+        }
+      ];
+    in
+    {
+      nixosConfigurations = {
+        gamedev = nixpkgs.lib.nixosSystem {
+          inherit system specialArgs;
+          modules = sharedModules ++ [
+            ./hosts/gamedev
+            ./profiles/desktop
+            ./profiles/nvidia
+            ./profiles/gamedev
+            ./profiles/games
+          ];
+        };
 
-      webwork = nixpkgs.lib.nixosSystem {
-        inherit system specialArgs;
-        modules = sharedModules ++ [
-          ./hosts/webwork/configuration.nix
-          ./modules/hardware/nvidia.nix
-          ./modules/desktop/default.nix
-          ./modules/dev/webfull/default.nix
-          ./modules/services/databases.nix
-        ];
-      };
+        webwork = nixpkgs.lib.nixosSystem {
+          inherit system specialArgs;
+          modules = sharedModules ++ [
+            ./hosts/webwork
+            ./profiles/desktop
+            ./profiles/nvidia
+            ./profiles/appdev
+            ./profiles/databases
+          ];
+        };
 
-      weblight = nixpkgs.lib.nixosSystem {
-        inherit system specialArgs;
-        modules = sharedModules ++ [
-          ./hosts/weblight/configuration.nix
-          ./modules/desktop/default.nix
-          ./modules/dev/weblight/default.nix
-          ./modules/services/databases.nix
-        ];
-      };
+        weblight = nixpkgs.lib.nixosSystem {
+          inherit system specialArgs;
+          modules = sharedModules ++ [
+            ./hosts/weblight
+            ./profiles/desktop
+            ./profiles/webdev
+            ./profiles/databases
+          ];
+        };
 
-      microserver = nixpkgs.lib.nixosSystem {
-        inherit system specialArgs;
-        modules = sharedModules ++ [
-          ./hosts/microserver/configuration.nix
-        ];
+        microserver = nixpkgs.lib.nixosSystem {
+          inherit system specialArgs;
+          modules = sharedModules ++ [
+            ./hosts/microserver
+          ];
+        };
       };
     };
-  };
 }

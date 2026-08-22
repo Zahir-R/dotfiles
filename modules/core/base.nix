@@ -37,6 +37,5 @@
     fastfetch
     tree
     vimPlugins.nvim-treesitter.withAllGrammars
-    opencode
   ];
 }

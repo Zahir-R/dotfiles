@@ -1,0 +1,36 @@
+diff --git a/rplugin/python3/molten/outputbuffer.py b/rplugin/python3/molten/outputbuffer.py
+index eb1966a..500c57d 100644
+--- a/rplugin/python3/molten/outputbuffer.py
++++ b/rplugin/python3/molten/outputbuffer.py
+@@ -133,9 +133,10 @@ class OutputBuffer:
+                 self.show_floating_win(anchor)
+             elif self.options.enter_output_behavior == "open_and_enter":
+                 self.show_floating_win(anchor)
+-                entered = True
+-                self.nvim.funcs.nvim_set_current_win(self.display_win)
+-        elif self.options.enter_output_behavior != "no_open":
++                if self.display_win is not None:
++                    entered = True
++                    self.nvim.funcs.nvim_set_current_win(self.display_win)
++        elif self.options.enter_output_behavior != "no_open" and self.display_win is not None:
+             entered = True
+             self.nvim.funcs.nvim_set_current_win(self.display_win)
+         if entered:
+@@ -331,6 +332,17 @@ class OutputBuffer:
+             win_row = self._buffer_to_window_lineno(anchor.lineno + 1)
+ 
+         if win_row <= 0:  # anchor position is off screen
++            # Fall back to anchoring the window at the cursor line, which is
++            # guaranteed to be on screen.
++            cursor_lineno = win.cursor[0] - 1
++            anchor = Position(anchor.bufno, cursor_lineno, 0)
++            if self.options.cover_empty_lines:
++                offset = self.calculate_offset(anchor)
++                win_row = self._buffer_to_window_lineno(anchor.lineno + offset) + 1
++            else:
++                win_row = self._buffer_to_window_lineno(anchor.lineno + 1)
++
++        if win_row <= 0:  # still off screen, nothing we can do
+             return
+         win_width = win.width
+         win_height = win.height
