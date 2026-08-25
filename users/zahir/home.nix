@@ -52,6 +52,7 @@
       '';
     })
 
+    gaphor
     nodejs_24
     pnpm
     uv
@@ -69,6 +70,11 @@
   ];
 
   xdg.configFile."nvim".source = ../../config/nvim;
+
+  programs.git = {
+    enable = true;
+    lfs.enable = true;
+  };
 
   programs.alacritty = {
     enable = true;

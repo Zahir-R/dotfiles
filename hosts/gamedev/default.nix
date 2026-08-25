@@ -32,12 +32,15 @@
   powerManagement.enable = true;
 
   services.power-profiles-daemon.enable = true;
+  services.upower.enable = true;
 
   services.logind.settings.Login = {
     LidSwitch = "suspend-then-hibernate";
     PowerKey = "hibernate";
     PowerKeyLongPress = "poweroff";
   };
+
+  programs.ssh.startAgent = true;
 
   systemd.sleep.settings.Sleep = {
     HibernateDelaySec = "30m";
