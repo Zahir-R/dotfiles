@@ -1,7 +1,7 @@
 { ... }: {
   imports = [ ./hardware-configuration.nix ];
 
-  networking.hostName = "web-light";
+  networking.hostName = "Exo_Netbook";
   networking.networkmanager.enable = true;
 
   boot.loader.grub = {
@@ -9,9 +9,12 @@
     device = "/dev/sda";
   };
 
+  documentation.enable = false;
+  documentation.nixos.enable = false;
+
   zramSwap = {
     enable = true;
-    memoryPercent = 50;
+    memoryPercent = 100;
   };
 
   system.stateVersion = "26.05";

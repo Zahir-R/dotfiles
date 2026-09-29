@@ -1,7 +1,7 @@
 { ... }: {
   imports = [ ./hardware-configuration.nix ];
 
-  networking.hostName = "micro-server";
+  networking.hostName = "Toshiba_Satellite";
   networking.networkmanager.enable = true;
 
   boot.loader.grub = {
@@ -9,12 +9,9 @@
     device = "/dev/sda";
   };
 
-  documentation.enable = false;
-  documentation.nixos.enable = false;
-
   zramSwap = {
     enable = true;
-    memoryPercent = 100;
+    memoryPercent = 50;
   };
 
   system.stateVersion = "26.05";

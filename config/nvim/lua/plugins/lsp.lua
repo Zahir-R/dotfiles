@@ -19,7 +19,25 @@ return {
     opts = {
       servers = {
         clangd = {},
-        lua_ls = {},
+        lua_ls = {
+          settings = {
+            Lua = {
+              runtime = {
+                version = "LuaJIT",
+              },
+              diagnostics = {
+                globals = { "love", "vim" },
+              },
+              workspace = {
+                library = {
+                  "${3rd}/love2d/library",
+                },
+                checkThirdParty = false,
+              },
+              telemetry = { enable = false },
+            },
+          },
+        },
         nil_ls = {},
         bashls = {},
         gdscript = {},

@@ -1,7 +1,7 @@
 { ... }: {
   imports = [ ./hardware-configuration.nix ];
 
-  networking.hostName = "gamedev";
+  networking.hostName = "Desktop";
   networking.networkmanager.enable = true;
 
   boot.loader.systemd-boot.enable = true;
@@ -39,8 +39,6 @@
     PowerKey = "hibernate";
     PowerKeyLongPress = "poweroff";
   };
-
-  programs.ssh.startAgent = true;
 
   systemd.sleep.settings.Sleep = {
     HibernateDelaySec = "30m";

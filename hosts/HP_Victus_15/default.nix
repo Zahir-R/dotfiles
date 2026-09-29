@@ -1,7 +1,7 @@
 { ... }: {
   imports = [ ./hardware-configuration.nix ];
 
-  networking.hostName = "webwork";
+  networking.hostName = "HP_Victus_15-fa0031dx";
   networking.networkmanager.enable = true;
 
   boot.loader.systemd-boot.enable = true;

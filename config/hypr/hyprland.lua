@@ -114,8 +114,8 @@ hl.config({
     rounding_power   = 1,
 
     -- Change transparency of focused and unfocused windows
-    -- active_opacity   = 0.95,
-    -- inactive_opacity = 0.90,
+    --active_opacity   = 0.95,
+    --inactive_opacity = 0.90,
     active_opacity   = 1.0,
     inactive_opacity = 1.0,
     shadow           = {
@@ -235,6 +235,7 @@ hl.config({
     sensitivity = 0,
     touchpad = {
       natural_scroll = false,
+      disable_while_typing = false
     },
   },
 })

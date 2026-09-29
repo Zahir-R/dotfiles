@@ -37,10 +37,10 @@
     in
     {
       nixosConfigurations = {
-        gamedev = nixpkgs.lib.nixosSystem {
+        Desktop = nixpkgs.lib.nixosSystem {
           inherit system specialArgs;
           modules = sharedModules ++ [
-            ./hosts/gamedev
+            ./hosts/Desktop
             ./profiles/desktop
             ./profiles/nvidia
             ./profiles/gamedev
@@ -48,10 +48,10 @@
           ];
         };
 
-        webwork = nixpkgs.lib.nixosSystem {
+        Victus = nixpkgs.lib.nixosSystem {
           inherit system specialArgs;
           modules = sharedModules ++ [
-            ./hosts/webwork
+            ./hosts/HP_Victus_15
             ./profiles/desktop
             ./profiles/nvidia
             ./profiles/appdev
@@ -59,20 +59,20 @@
           ];
         };
 
-        weblight = nixpkgs.lib.nixosSystem {
+        Toshiba = nixpkgs.lib.nixosSystem {
           inherit system specialArgs;
           modules = sharedModules ++ [
-            ./hosts/weblight
+            ./hosts/Toshiba_Satellite
             ./profiles/desktop
             ./profiles/webdev
             ./profiles/databases
           ];
         };
 
-        microserver = nixpkgs.lib.nixosSystem {
+        Exo = nixpkgs.lib.nixosSystem {
           inherit system specialArgs;
           modules = sharedModules ++ [
-            ./hosts/microserver
+            ./hosts/Exo_Netbook
           ];
         };
       };

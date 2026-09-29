@@ -16,18 +16,9 @@
   };
 
   home.packages = with pkgs; [
-    firefox
-    eza
     fzf
     grim
-    bat
-    thunar
     awww
-    bibata-cursors
-    rofi
-    waybar
-    wl-clipboard
-    xdg-utils
     tree-sitter
     (vimPlugins.nvim-treesitter.withAllGrammars)
 
@@ -56,6 +47,9 @@
     nodejs_24
     pnpm
     uv
+    feh
+    mpv
+    visidata
     ueberzugpp
     droidcam
     gh
@@ -67,6 +61,7 @@
     vtsls
     eslint
     prettierd
+    luanti
   ];
 
   xdg.configFile."nvim".source = ../../config/nvim;
@@ -153,7 +148,7 @@
     shellAliases = {
       ls = "eza --icons --group-directories-first";
       cat = "bat";
-      zconf = "nvim ~/dotfiles/users/zahir/home.nix";
+      zconf = "nvim /etc/nixos/users/zahir/home.nix";
       heroic = "cd \"$HOME\" && heroic";
       steam = "cd $HOME && steam";
     };
@@ -161,7 +156,7 @@
     initContent = ''
       zreload() {
         local target=''${1:-$(hostname)}
-        sudo nixos-rebuild switch --flake ~/dotfiles/#"$target" && sudo systemctl restart systemd-hostnamed && exec zsh
+        sudo nixos-rebuild switch --flake /etc/nixos/#"$target" && sudo systemctl restart systemd-hostnamed && exec zsh
       }
     '';
 
