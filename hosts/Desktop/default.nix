@@ -7,7 +7,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.systemd-boot.configurationLimit = 5;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.efi.efiSysMountPoint = "/boot/efi";
+  boot.loader.efi.efiSysMountPoint = "/boot";
   boot.loader.grub.enable = false;
   system.stateVersion = "26.05";
 
@@ -25,10 +25,11 @@
   ];
 
   boot.kernelParams = [
-    "resume_offset=31420416"
+    # "resume_offset=31420416"
     "mem_sleep_default=deep"
   ];
-  boot.resumeDevice = "/dev/disk/by-uuid/883de841-a0d4-4ab7-a0c6-36dc8ba76e66";
+  # boot.resumeDevice = "/dev/disk/by-uuid/f102c018-f9e9-432b-87b9-df0d956544ad";
+  boot.initrd.systemd.enable = true;
   powerManagement.enable = true;
 
   services.power-profiles-daemon.enable = true;
